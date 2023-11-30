@@ -1,6 +1,6 @@
 # Relic Run: Pursuit for the Eldritch Gem
 
-**Developers: Prakriti, Zixuan Borah, Satyam Singh, Ambika Chittimalla, Unnath Ambekar**
+**Developers: Prakritiz Borah, Satyam Ambi, Unnath Chittimalla**
 
 ## Game Overview
 
