@@ -1,5 +1,6 @@
 import pygame
 from support import import_folder
+from settings import WIDTH, HEIGTH
 
 
 class LoadingScreen():
@@ -10,7 +11,7 @@ class LoadingScreen():
         self.displaysurface = pygame.display.get_surface()
 
         self.image = self.frames[self.frame_index]
-        self.image = pygame.transform.scale(self.image, (854, 480))
+        self.image = pygame.transform.scale(self.image, (WIDTH, HEIGTH))
         self.rect = self.image.get_rect(topleft=(0, 0))
         self.hitbox = self.rect.inflate(-10, -10)
         self.music = pygame.mixer.Sound('../audio/Light Ambience 1.mp3')
@@ -26,7 +27,7 @@ class LoadingScreen():
 
         # Set the image
         self.image = animation[int(self.frame_index)]
-        self.image = pygame.transform.scale(self.image, (854, 480))
+        self.image = pygame.transform.scale(self.image, (WIDTH, HEIGTH))
         self.rect = self.image.get_rect(center=self.hitbox.center)
 
     def update(self):

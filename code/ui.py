@@ -31,6 +31,7 @@ class UI:
 		self.status_message = ""
 		self.status_message_duration = 2000  # Duration in milliseconds
 		self.status_message_start_time = 0
+		self.current_level = 1
 
 	def show_bar(self,current,max_amount,bg_rect,color):
 		# draw bg 
@@ -47,7 +48,14 @@ class UI:
 		pygame.draw.rect(self.display_surface,UI_BORDER_COLOR,bg_rect,3)
 
 	def show_exp(self,player):
-		text_surf = self.font.render(f"You have {player.inventory['keys']} keys",False,TEXT_COLOR)
+		if self.current_level == 1:
+			text_surf = self.font.render(f"Space to attack, Shift to run",False,TEXT_COLOR)
+		elif self.current_level == 2:
+			text_surf = self.font.render(f"Find a way out of the maze!",False,TEXT_COLOR)
+		elif self.current_level == 3:
+			text_surf = self.font.render(f"You have {player.inventory['keys']} keys",False,TEXT_COLOR)
+		elif self.current_level == 4:
+			text_surf = self.font.render(f"Escape!",False,TEXT_COLOR)
 		x = self.display_surface.get_size()[0] - 20
 		y = self.display_surface.get_size()[1] - 20
 		text_rect = text_surf.get_rect(bottomright = (x,y))

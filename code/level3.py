@@ -40,6 +40,7 @@ class Level3:
 
         # user interface
         self.ui = UI()
+        self.ui.current_level = 3
         self.gameover = False
         # level music
         # collectable music

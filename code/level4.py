@@ -27,8 +27,6 @@ class Level4:
         self.attack_orbs = pygame.sprite.Group()
         self.speed_orbs = pygame.sprite.Group()
         self.gem = pygame.sprite.Group()
-        self.door = pygame.sprite.Group()
-        self.key = pygame.sprite.Group()
 
         # attack sprites
         self.current_attack = None
@@ -41,6 +39,7 @@ class Level4:
 
         # user interface
         self.ui = UI()
+        self.ui.current_level = 4
         self.completed = False
         self.gameover = False
         # level music
@@ -50,7 +49,7 @@ class Level4:
         self.stomp_music = pygame.mixer.Sound('../audio/stomp.wav')
         self.stomp_music_channel = pygame.mixer.Channel(3)
 
-    def create_map(self, row_index = None, col_index=None):
+    def create_map(self):
 
         layouts = {
             'boundary': import_csv_layout('../map new/last level_collision last level.csv'),
@@ -77,7 +76,7 @@ class Level4:
                                     self.create_attack,
                                     self.destroy_attack,
                                     self.create_magic)
-                            self.boss = Boss((x+1000, y-30),[self.bosssprites,self.visible_sprites])
+                            self.boss = Boss((x+500, y-30),[self.bosssprites, self.visible_sprites])
                         if style == "enemy":
                             self.enemy = Enemy('golu',(x, y),[self.visible_sprites, self.attackable_sprites],self.obstacle_sprites,self.damage_player)
                         if style =="health":
@@ -88,8 +87,6 @@ class Level4:
                             SpeedOrbs((x, y), [self.speed_orbs, self.visible_sprites])
                         if style == "gem":
                             EldritchGem((x,y),[self.gem,self.visible_sprites])
-                        if style == 'door':
-                            Tile((x, y),[self.door, self.obstacle_sprites],'invisible')
                         if style == 'next':
                             Tile((x, y), [self.next_sprites],"invisible")
 
@@ -150,7 +147,6 @@ class Level4:
             self.completed = True
             self.ui.set_status_message('YOU WON')
         if self.player.health <= 0:
-            print('game over')
             self.gameover = True
         if pygame.sprite.spritecollide(self.player, self.health_orbs, True):
             self.player.inventory["healthOrbs"] += 1
@@ -173,24 +169,8 @@ class Level4:
             self.collectable_music_channel.play(self.collectable_music)
             self.ui.set_status_message('Attack Increased')
             self.player.attack += 10
-
-
-        if pygame.sprite.spritecollide(self.player, self.key, True):
-            self.player.inventory["keys"] += 1
-            self.collectable_music_channel.play(self.collectable_music)
-            self.ui.set_status_message('Key Obtained!')
-
-
-        if pygame.sprite.spritecollide(self.player, self.door, True) and self.player.inventory['keys']>0:
-            self.collectable_music_channel.play(self.collectable_music)
-            self.ui.set_status_message('Door Open!')
-
-        if pygame.sprite.spritecollide(self.player, self.door, False) and self.player.inventory['keys']==0:
-            self.ui.set_status_message('You need a key to open this door!')
-        if pygame.sprite.spritecollide(self.player, self.bosssprites,False):
-            self.gameover = True
+        if self.player.rect.colliderect(self.boss.hitbox):
             self.player.health = -10
-            print("Game Over")
 
             self.ui.set_status_message('YOU DIED')
 
@@ -270,7 +250,10 @@ class Boss(pygame.sprite.Sprite):
         self.image = self.frames[self.frame_index]
         self.image = pygame.transform.scale2x(pygame.transform.scale2x(self.image))
         self.rect = self.image.get_rect(center=pos)
-        self.hitbox = self.rect.inflate(-500, -200)
+
+        self.hitbox = self.rect.inflate(-self.rect.width + 100,-self.rect.height + 100)
+        #self.rect = self.rect.inflate(-60, -500)
+
 
     def animate(self):
         animation = self.frames
@@ -286,8 +269,8 @@ class Boss(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=self.hitbox.center)
 
     def move(self, speed):
-        self.hitbox.x -=  speed
-        self.rect.center = self.hitbox.center
+        self.rect.x -= speed
+        self.hitbox.center = self.rect.center
 
     def update(self):
         self.animate()

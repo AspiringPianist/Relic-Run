@@ -39,6 +39,7 @@ class Level1:
 
         # user interface
         self.ui = UI()
+        self.ui.current_level = 1
         self.completed = False
         self.gameover = False
         # level music

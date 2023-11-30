@@ -30,7 +30,8 @@ class Intro:
             self.count = 1
         # Set the image
         self.image = animation[int(self.frame_index)]
-        self.rect = self.image.get_rect(center=self.hitbox.center)
+        self.image = pygame.transform.scale(self.image,(WIDTH, HEIGTH))
+        self.rect = self.image.get_rect(topleft=self.hitbox.center)
 
     def handle_input(self):
         keys = pygame.key.get_pressed()
@@ -49,7 +50,7 @@ class Intro:
     def reset(self):
         self.frame_index = 0
         self.image = self.frames[self.frame_index]
-        self.rect = self.image.get_rect(topleft=(0, 0))
+        self.rect = self.image.get_rect()
         self.hitbox = self.rect
         self.count = 0
         self.finished = False
@@ -66,7 +67,7 @@ class Intro1:
         self.animation_speed = 0.2
 
         self.image = self.frames[self.frame_index]
-        self.rect = self.image.get_rect(topleft=(0, 0))
+        self.rect = self.image.get_rect()
         self.hitbox = self.rect
         self.count = 0
         self.finished = False
@@ -83,7 +84,9 @@ class Intro1:
             self.frame_index = 0
         # Set the image
         self.image = animation[int(self.frame_index)]
-        self.rect = self.image.get_rect(center=self.hitbox.center)
+        self.image = pygame.transform.scale(self.image,(WIDTH, HEIGTH))
+
+        self.rect = self.image.get_rect()
 
     def reset(self):
         self.frame_index = 0
@@ -136,7 +139,9 @@ class Final:
             self.count = 1
         # Set the image
         self.image = animation[int(self.frame_index)]
-        self.rect = self.image.get_rect(center=self.hitbox.center)
+        self.image = pygame.transform.scale(self.image,(WIDTH, HEIGTH))
+
+        self.rect = self.image.get_rect()
 
     def reset(self):
         self.frame_index = 0

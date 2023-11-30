@@ -37,6 +37,7 @@ class Level2:
 
         # user interface
         self.ui = UI()
+        self.ui.current_level = 2
         self.completed = False
         self.gameover = False
         # level music
@@ -66,7 +67,6 @@ class Level2:
             'health': import_csv_layout('../map new/maze map_health(level2).csv'),
             'attack': import_csv_layout('../map new/maze map_attackLevel2.csv'),
             'speed': import_csv_layout('../map new/maze map_speed(level2).csv'),
-            # 'particles': import_csv_layout('../map new/maze map_particlesLeaves.csv')
 
         }
         graphics = {

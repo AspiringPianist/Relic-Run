@@ -6,15 +6,18 @@ from level import Level1
 from level2 import Level2
 from level3 import Level3
 from level4 import Level4
-from intro import * # Import the Crystal class from your intro module
+from pygame.locals import *
+from intro import *
+
 from loading import LoadingScreen
-pygame.mixer.pre_init(44100, 16, 2, 4096)
+# pygame.mixer.pre_init(44100, 16, 2, 4096)
 from pygame.locals import*
 
 class Game:
     def __init__(self):
+        pygame.mixer.pre_init(44100, 16, 2, 4096)
         pygame.init()
-        self.screen = pygame.display.set_mode((WIDTH, HEIGTH))
+        self.screen = pygame.display.set_mode((WIDTH, HEIGTH),pygame.SCALED)
         pygame.display.set_caption('RELIC RUN')
         self.clock = pygame.time.Clock()
 
@@ -33,6 +36,7 @@ class Game:
 
         # Homescreen vari ables
         self.homescreen_image = pygame.image.load('../graphics/ui/home page.jpg').convert()
+        self.homescreen_image = pygame.transform.scale(self.homescreen_image,(1280,720))
         self.gameover_image = pygame.image.load('../graphics/ui/gameover.jpg').convert()
         self.loading = LoadingScreen()
         self.gameover_image_rect = self.gameover_image.get_rect()
@@ -45,9 +49,10 @@ class Game:
 
 
     def homescreen(self):
-        self.screen.blit(self.homescreen_image, (0, 0))
+        self.screen.blit(self.homescreen_image, (0,0))
         pygame.display.update()
     def gameover(self):
+        self.gameover_image = pygame.transform.scale(self.gameover_image,(1280,720))
         self.screen.blit(self.gameover_image,(0,0))
         self.reset_game()
         pygame.display.update()
@@ -98,7 +103,7 @@ class Game:
 
             elif self.game_state == 2:# Intro
                 self.intro.update()
-                self.screen.blit(self.intro.image, self.intro.rect.topleft)  # Blit intro frames
+                self.screen.blit(self.intro.image, (0,0))  # Blit intro frames
                 pygame.display.update()
                 if self.intro.finished:  # Check if intro has finished
                     self.intro.stop_music()  # Stop the intro music
@@ -132,13 +137,13 @@ class Game:
 
                 transition_surface = pygame.Surface((WIDTH, HEIGTH), pygame.SRCALPHA)
                 transition_surface.fill((0, 0, 0, self.transition_alpha))
-                self.screen.blit(transition_surface, (0, 0))
+                self.screen.blit(transition_surface, (WIDTH/2,HEIGTH/2))
 
 
             elif self.game_state == 5:# Intro
                 self.intro2.finished = False
                 self.intro2.update()
-                self.screen.blit(self.intro2.image, self.intro2.rect.topleft)  # Blit intro frames
+                self.screen.blit(self.intro2.image, (0,0))  # Blit intro frames
                 pygame.display.update()
                 if self.intro2.finished:  # Check if intro has finished
                     self.intro2.stop_music()  # Stop the intro music
@@ -172,7 +177,7 @@ class Game:
 
                 transition_surface = pygame.Surface((WIDTH, HEIGTH), pygame.SRCALPHA)
                 transition_surface.fill((0, 0, 0, self.transition_alpha))
-                self.screen.blit(transition_surface, (0, 0))
+                self.screen.blit(transition_surface, (0,0))
 
             elif self.game_state == 8:
                 self.level3.run()
@@ -191,7 +196,7 @@ class Game:
 
             elif self.game_state == 9:# Intro
                 self.final.update()
-                self.screen.blit(self.final.image, self.final.rect.topleft)  # Blit intro frames
+                self.screen.blit(self.final.image, (0,0))  # Blit intro frames
                 pygame.display.update()
                 if self.final.finished:  # Check if intro has finished
                     self.monster_stomp_channel.play(self.monster_stomp,-1)
@@ -201,6 +206,10 @@ class Game:
 
             elif self.game_state == 10:
                 self.level4.run()
+                if self.level4.completed:
+                    pass
+                if self.level4.gameover:
+                    self.game_state = 20
             elif self.game_state == 20:
                 self.gameover()
             pygame.display.update()
