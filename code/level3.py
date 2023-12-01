@@ -62,7 +62,7 @@ class Level3:
     def create_map(self):
 
         layouts = {
-            'boundary': import_csv_layout('../map new/dungeon_collision1.csv'),
+            'boundary': import_csv_layout('../map new/dungeon_collision.csv'),
             'player': import_csv_layout('../map new/dungeon_PLayer.csv'),
             'enemy': import_csv_layout('../map new/dungeon_dungeon bigboi.csv'),
             'health': import_csv_layout('../map new/dungeon_health.csv'),
