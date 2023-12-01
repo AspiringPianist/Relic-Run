@@ -56,8 +56,10 @@ Use the arrow keys to navigate the player through the game world, shift to run.
 
 (A .exe executable will be available soon on releases section!)
 1. Ensure that the `pygame` module is installed using the provided command.
-
-2. Run the game script.
+```bash
+pip install pygame
+```
+3. Run the game script.
 
 ```bash
 python main.py
